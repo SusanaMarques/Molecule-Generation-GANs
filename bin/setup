@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+BASE_DIR=$(dirname "${BASH_SOURCE[0]:-$0}")
+cd "${BASE_DIR}/.." || exit 127
+
+# shellcheck source=../scripts/logging.sh
+. scripts/logging.sh
+# shellcheck source=../scripts/utils.sh
+. scripts/utils.sh
+
+PROGRAM=$(basename "$0")
+VERSION=0.5.4
+
+function display_help() {
+  cat <<EOF
+  $(help_title_section Usage)
+    ${PROGRAM} [options] [<command>]
+
+  $(help_title_section Commands) [Default: all]
+    all               Run all setup steps.
+    venv              Setup virtual environment.
+    dependencies      Install required packages.
+    dev-dependencies  Install development packages.
+
+  $(help_title_section Options)
+    -h --help         Show this screen.
+    -v --version      Show version.
+EOF
+}
+
+function setup_virtual_env() {
+  log_info "setup" "Creating virtual environment..."
+  python3 -m venv .venv
+
+  log_info "setup" "Activating virtual environment..."
+  source .venv/bin/activate
+}
+
+function install_dependencies() {
+  if not_installed deactivate; then
+    source .venv/bin/activate
+  fi
+
+  log_info "setup" "Updating pip..."
+  python3 -m pip install --upgrade pip
+
+  log_info "setup" "Installing project dependencies..."
+  python3 -m pip install -r requirements.txt
+
+  log_success "Required packages installed"
+}
+
+function install_dev_dependencies() {
+  if not_installed deactivate; then
+    source .venv/bin/activate
+  fi
+
+  log_info "setup" "Installing dev dependencies..."
+  python3 -m pip install -r requirements-dev.txt
+
+  log_success "Development packages installed"
+}
+
+case ${1:-all} in
+  -h | --help)
+    display_help
+    ;;
+  -v | --version)
+    display_version "$PROGRAM" "$VERSION"
+    ;;
+  venv)
+    setup_virtual_env
+    ;;
+  dependencies)
+    install_dependencies
+    ;;
+  dev-dependencies)
+    install_dev_dependencies
+    ;;
+  all)
+    setup_virtual_env
+    install_dependencies
+    install_dev_dependencies
+    ;;
+  *)
+    display_help >&2
+    exit 1
+    ;;
+esac

@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+BASE_DIR=$(dirname "${BASH_SOURCE[0]:-$0}")
+cd "${BASE_DIR}/.." || exit 127
+
+# shellcheck source=../scripts/logging.sh
+. scripts/logging.sh
+# shellcheck source=../scripts/utils.sh
+. scripts/utils.sh
+
+PROGRAM=$(basename "$0")
+VERSION=0.5.4
+
+function display_help() {
+  cat <<EOF
+  $(help_title_section Usage)
+    ${PROGRAM} [options] [<command>]
+
+  $(help_title_section Commands) [Default: lab]
+    lab             Start a Jupyter Lab instance.
+
+  $(help_title_section Options)
+    -h --help         Show this screen.
+    -v --version      Show version.
+EOF
+}
+
+function run_jupyter() {
+  if not_installed deactivate; then
+    source .venv/bin/activate
+  fi
+
+
+  local cmd=${1:-lab}
+
+  if [ $# -gt 0 ]; then
+    shift 1
+  fi
+
+  log_info "Starting Jupyter ${cmd^}..."
+  python3 -m jupyter "$cmd" "$@"
+}
+
+case ${1:-lab} in
+  -h | --help)
+    display_help
+    ;;
+  -v | --version)
+    display_version "$PROGRAM" "$VERSION"
+    ;;
+  *)
+    run_jupyter "$@"
+    ;;
+esac

@@ -1,0 +1,14 @@
+mypy==0.812
+pylint==2.7.4
+yapf==0.31.0
+
+ipython==7.22.0
+jupyter-client==6.1.12
+jupyter-core==4.7.1
+jupyter-packaging==0.9.2
+jupyter-server==1.6.2
+jupyterlab-pygments==0.1.2
+jupyterlab-server==2.4.0
+jupyterlab==3.0.14
+
+gdown==3.13.0

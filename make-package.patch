@@ -1,0 +1,1705 @@
+From f6e4621d9f802c033b88cee4061ca9a96115f4e6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Nelson=20Estev=C3=A3o?= <nelsonmestevao@gmail.com>
+Date: Mon, 26 Apr 2021 22:34:33 +0100
+Subject: [PATCH] Make it a package
+
+---
+ .idea/.gitignore                              |   8 -
+ .idea/DeepMol.iml                             |  11 -
+ .../inspectionProfiles/profiles_settings.xml  |   6 -
+ .idea/misc.xml                                |   4 -
+ .idea/modules.xml                             |   8 -
+ .idea/other.xml                               |   7 -
+ .idea/vcs.xml                                 |   6 -
+ {src => examples}/data/PC-3.csv               |   0
+ .../data/dataset_last_version2.csv            |   0
+ {src => examples}/data/datset_wFooDB.csv      |   0
+ .../data}/preprocessed_dataset.csv            |   0
+ .../data}/preprocessed_dataset_wfoodb.csv     |   0
+ .../notebooks}/BalancedDatasetTest.ipynb      |  18 +-
+ .../notebooks}/RandomForestTest.ipynb         |  18 +-
+ .../notebooks}/SMOTEENNTest.ipynb             |  20 +-
+ {src => examples/notebooks}/SVMTest.ipynb     |  18 +-
+ .../notebooks}/regression_test.ipynb          |  16 +-
+ {src => examples/notebooks}/test.ipynb        |  38 +-
+ .../notebooks}/test_cnn_keras.ipynb           |  16 +-
+ {src => examples/notebooks}/test_keras.ipynb  |  16 +-
+ setup.py                                      |  22 +
+ .../RandomForestTest-checkpoint.ipynb         | 633 ------------------
+ src/deepmol.egg-info/PKG-INFO                 |  10 +
+ src/deepmol.egg-info/SOURCES.txt              |   7 +
+ src/deepmol.egg-info/dependency_links.txt     |   1 +
+ src/deepmol.egg-info/requires.txt             |  10 +
+ src/deepmol.egg-info/top_level.txt            |   1 +
+ src/{ => deepmol}/Datasets/Datasets.py        |   0
+ src/deepmol/Datasets/__init__.py              |   0
+ src/deepmol/compoundFeaturization/__init__.py |   0
+ .../compoundFeaturization/baseFeaturizer.py   |   2 +-
+ .../compoundFeaturization/mol2vec.py          |   4 +-
+ .../mol2vec_models/model_300dim.pkl           | Bin
+ .../rdkitFingerprints.py                      |   2 +-
+ src/{ => deepmol}/evaluator/Evaluator.py      |   6 +-
+ src/deepmol/evaluator/__init__.py             |   0
+ src/deepmol/featureSelection/__init__.py      |   0
+ .../featureSelection/baseFeatureSelector.py   |   2 +-
+ .../imbalanced_learn/ImbalancedLearn.py       |   2 +-
+ src/deepmol/imbalanced_learn/__init__.py      |   0
+ src/{ => deepmol}/loaders/Loaders.py          |   2 +-
+ src/deepmol/loaders/__init__.py               |   0
+ src/{ => deepmol}/metrics/Metrics.py          |   2 +-
+ src/deepmol/metrics/__init__.py               |   0
+ src/{ => deepmol}/metrics/metricsFunctions.py |   0
+ src/{ => deepmol}/models/Models.py            |   6 +-
+ src/deepmol/models/__init__.py                |   0
+ src/{ => deepmol}/models/baseModels.py        |   0
+ src/{ => deepmol}/models/kerasModels.py       |  10 +-
+ src/{ => deepmol}/models/sklearnModels.py     |  10 +-
+ .../HyperparameterOpt.py                      |  10 +-
+ src/deepmol/parameterOptimization/__init__.py |   0
+ src/{ => deepmol}/preprocessing.py            |   0
+ src/deepmol/splitters/__init__.py             |   0
+ src/{ => deepmol}/splitters/splitters.py      |   2 +-
+ src/{ => deepmol}/test3.py                    |   0
+ src/deepmol/unsupervised/__init__.py          |   0
+ .../unsupervised/baseUnsupervised.py          |   2 +-
+ src/deepmol/utils/__init__.py                 |   0
+ src/{ => deepmol}/utils/utils.py              |   0
+ 60 files changed, 162 insertions(+), 794 deletions(-)
+ delete mode 100644 .idea/.gitignore
+ delete mode 100644 .idea/DeepMol.iml
+ delete mode 100644 .idea/inspectionProfiles/profiles_settings.xml
+ delete mode 100644 .idea/misc.xml
+ delete mode 100644 .idea/modules.xml
+ delete mode 100644 .idea/other.xml
+ delete mode 100644 .idea/vcs.xml
+ rename {src => examples}/data/PC-3.csv (100%)
+ rename {src => examples}/data/dataset_last_version2.csv (100%)
+ rename {src => examples}/data/datset_wFooDB.csv (100%)
+ rename {src => examples/data}/preprocessed_dataset.csv (100%)
+ rename {src => examples/data}/preprocessed_dataset_wfoodb.csv (100%)
+ rename {src => examples/notebooks}/BalancedDatasetTest.ipynb (99%)
+ rename {src => examples/notebooks}/RandomForestTest.ipynb (97%)
+ rename {src => examples/notebooks}/SMOTEENNTest.ipynb (95%)
+ rename {src => examples/notebooks}/SVMTest.ipynb (96%)
+ rename {src => examples/notebooks}/regression_test.ipynb (97%)
+ rename {src => examples/notebooks}/test.ipynb (99%)
+ rename {src => examples/notebooks}/test_cnn_keras.ipynb (98%)
+ rename {src => examples/notebooks}/test_keras.ipynb (98%)
+ create mode 100644 setup.py
+ delete mode 100644 src/.ipynb_checkpoints/RandomForestTest-checkpoint.ipynb
+ create mode 100644 src/deepmol.egg-info/PKG-INFO
+ create mode 100644 src/deepmol.egg-info/SOURCES.txt
+ create mode 100644 src/deepmol.egg-info/dependency_links.txt
+ create mode 100644 src/deepmol.egg-info/requires.txt
+ create mode 100644 src/deepmol.egg-info/top_level.txt
+ rename src/{ => deepmol}/Datasets/Datasets.py (100%)
+ create mode 100644 src/deepmol/Datasets/__init__.py
+ create mode 100644 src/deepmol/compoundFeaturization/__init__.py
+ rename src/{ => deepmol}/compoundFeaturization/baseFeaturizer.py (97%)
+ rename src/{ => deepmol}/compoundFeaturization/mol2vec.py (94%)
+ rename src/{ => deepmol}/compoundFeaturization/mol2vec_models/model_300dim.pkl (100%)
+ rename src/{ => deepmol}/compoundFeaturization/rdkitFingerprints.py (99%)
+ rename src/{ => deepmol}/evaluator/Evaluator.py (98%)
+ create mode 100644 src/deepmol/evaluator/__init__.py
+ create mode 100644 src/deepmol/featureSelection/__init__.py
+ rename src/{ => deepmol}/featureSelection/baseFeatureSelector.py (99%)
+ rename src/{ => deepmol}/imbalanced_learn/ImbalancedLearn.py (99%)
+ create mode 100644 src/deepmol/imbalanced_learn/__init__.py
+ rename src/{ => deepmol}/loaders/Loaders.py (99%)
+ create mode 100644 src/deepmol/loaders/__init__.py
+ rename src/{ => deepmol}/metrics/Metrics.py (99%)
+ create mode 100644 src/deepmol/metrics/__init__.py
+ rename src/{ => deepmol}/metrics/metricsFunctions.py (100%)
+ rename src/{ => deepmol}/models/Models.py (97%)
+ create mode 100644 src/deepmol/models/__init__.py
+ rename src/{ => deepmol}/models/baseModels.py (100%)
+ rename src/{ => deepmol}/models/kerasModels.py (94%)
+ rename src/{ => deepmol}/models/sklearnModels.py (94%)
+ rename src/{ => deepmol}/parameterOptimization/HyperparameterOpt.py (98%)
+ create mode 100644 src/deepmol/parameterOptimization/__init__.py
+ rename src/{ => deepmol}/preprocessing.py (100%)
+ create mode 100644 src/deepmol/splitters/__init__.py
+ rename src/{ => deepmol}/splitters/splitters.py (99%)
+ rename src/{ => deepmol}/test3.py (100%)
+ create mode 100644 src/deepmol/unsupervised/__init__.py
+ rename src/{ => deepmol}/unsupervised/baseUnsupervised.py (99%)
+ create mode 100644 src/deepmol/utils/__init__.py
+ rename src/{ => deepmol}/utils/utils.py (100%)
+
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+deleted file mode 100644
+index 73f69e0..0000000
+--- a/.idea/.gitignore
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# Default ignored files
+-/shelf/
+-/workspace.xml
+-# Datasource local storage ignored files
+-/dataSources/
+-/dataSources.local.xml
+-# Editor-based HTTP Client requests
+-/httpRequests/
+diff --git a/.idea/DeepMol.iml b/.idea/DeepMol.iml
+deleted file mode 100644
+index a027b29..0000000
+--- a/.idea/DeepMol.iml
++++ /dev/null
+@@ -1,11 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module type="PYTHON_MODULE" version="4">
+-  <component name="NewModuleRootManager">
+-    <content url="file://$MODULE_DIR$" />
+-    <orderEntry type="inheritedJdk" />
+-    <orderEntry type="sourceFolder" forTests="false" />
+-  </component>
+-  <component name="PyDocumentationSettings">
+-    <option name="renderExternalDocumentation" value="true" />
+-  </component>
+-</module>
+\ No newline at end of file
+diff --git a/.idea/inspectionProfiles/profiles_settings.xml b/.idea/inspectionProfiles/profiles_settings.xml
+deleted file mode 100644
+index 105ce2d..0000000
+--- a/.idea/inspectionProfiles/profiles_settings.xml
++++ /dev/null
+@@ -1,6 +0,0 @@
+-<component name="InspectionProjectProfileManager">
+-  <settings>
+-    <option name="USE_PROJECT_PROFILE" value="false" />
+-    <version value="1.0" />
+-  </settings>
+-</component>
+\ No newline at end of file
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+deleted file mode 100644
+index 65531ca..0000000
+--- a/.idea/misc.xml
++++ /dev/null
+@@ -1,4 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.6" project-jdk-type="Python SDK" />
+-</project>
+\ No newline at end of file
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+deleted file mode 100644
+index e8adeb4..0000000
+--- a/.idea/modules.xml
++++ /dev/null
+@@ -1,8 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectModuleManager">
+-    <modules>
+-      <module fileurl="file://$PROJECT_DIR$/.idea/DeepMol.iml" filepath="$PROJECT_DIR$/.idea/DeepMol.iml" />
+-    </modules>
+-  </component>
+-</project>
+\ No newline at end of file
+diff --git a/.idea/other.xml b/.idea/other.xml
+deleted file mode 100644
+index 640fd80..0000000
+--- a/.idea/other.xml
++++ /dev/null
+@@ -1,7 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="PySciProjectComponent">
+-    <option name="PY_SCI_VIEW" value="true" />
+-    <option name="PY_SCI_VIEW_SUGGESTED" value="true" />
+-  </component>
+-</project>
+\ No newline at end of file
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+deleted file mode 100644
+index 94a25f7..0000000
+--- a/.idea/vcs.xml
++++ /dev/null
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="VcsDirectoryMappings">
+-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+-  </component>
+-</project>
+\ No newline at end of file
+diff --git a/src/data/PC-3.csv b/examples/data/PC-3.csv
+similarity index 100%
+rename from src/data/PC-3.csv
+rename to examples/data/PC-3.csv
+diff --git a/src/data/dataset_last_version2.csv b/examples/data/dataset_last_version2.csv
+similarity index 100%
+rename from src/data/dataset_last_version2.csv
+rename to examples/data/dataset_last_version2.csv
+diff --git a/src/data/datset_wFooDB.csv b/examples/data/datset_wFooDB.csv
+similarity index 100%
+rename from src/data/datset_wFooDB.csv
+rename to examples/data/datset_wFooDB.csv
+diff --git a/src/preprocessed_dataset.csv b/examples/data/preprocessed_dataset.csv
+similarity index 100%
+rename from src/preprocessed_dataset.csv
+rename to examples/data/preprocessed_dataset.csv
+diff --git a/src/preprocessed_dataset_wfoodb.csv b/examples/data/preprocessed_dataset_wfoodb.csv
+similarity index 100%
+rename from src/preprocessed_dataset_wfoodb.csv
+rename to examples/data/preprocessed_dataset_wfoodb.csv
+diff --git a/src/BalancedDatasetTest.ipynb b/examples/notebooks/BalancedDatasetTest.ipynb
+similarity index 99%
+rename from src/BalancedDatasetTest.ipynb
+rename to examples/notebooks/BalancedDatasetTest.ipynb
+index c9034fa..c845c55 100644
+--- a/src/BalancedDatasetTest.ipynb
++++ b/examples/notebooks/BalancedDatasetTest.ipynb
+@@ -6,14 +6,14 @@
+    "metadata": {},
+    "outputs": [],
+    "source": [
+-    "from loaders.Loaders import CSVLoader\n",
+-    "from compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
+-    "from featureSelection.baseFeatureSelector import LowVarianceFS\n",
+-    "from splitters.splitters import SingletaskStratifiedSplitter\n",
+-    "from models.sklearnModels import SklearnModel\n",
+-    "from metrics.Metrics import Metric\n",
+-    "from metrics.metricsFunctions import roc_auc_score, precision_score, accuracy_score, confusion_matrix, classification_report\n",
+-    "from parameterOptimization.HyperparameterOpt import GridHyperparamOpt\n",
++    "from deepmol.loaders.Loaders import CSVLoader\n",
++    "from deepmol.compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
++    "from deepmol.featureSelection.baseFeatureSelector import LowVarianceFS\n",
++    "from deepmol.splitters.splitters import SingletaskStratifiedSplitter\n",
++    "from deepmol.models.sklearnModels import SklearnModel\n",
++    "from deepmol.metrics.Metrics import Metric\n",
++    "from deepmol.metrics.metricsFunctions import roc_auc_score, precision_score, accuracy_score, confusion_matrix, classification_report\n",
++    "from deepmol.parameterOptimization.HyperparameterOpt import GridHyperparamOpt\n",
+     "\n",
+     "from sklearn.ensemble import RandomForestClassifier, VotingClassifier\n",
+     "import sklearn\n",
+@@ -3017,4 +3017,4 @@
+  },
+  "nbformat": 4,
+  "nbformat_minor": 4
+-}
++}
+\ No newline at end of file
+diff --git a/src/RandomForestTest.ipynb b/examples/notebooks/RandomForestTest.ipynb
+similarity index 97%
+rename from src/RandomForestTest.ipynb
+rename to examples/notebooks/RandomForestTest.ipynb
+index f557495..9390829 100644
+--- a/src/RandomForestTest.ipynb
++++ b/examples/notebooks/RandomForestTest.ipynb
+@@ -6,14 +6,14 @@
+    "metadata": {},
+    "outputs": [],
+    "source": [
+-    "from loaders.Loaders import CSVLoader\n",
+-    "from compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
+-    "from featureSelection.baseFeatureSelector import LowVarianceFS\n",
+-    "from splitters.splitters import SingletaskStratifiedSplitter\n",
+-    "from models.sklearnModels import SklearnModel\n",
+-    "from metrics.Metrics import Metric\n",
+-    "from metrics.metricsFunctions import r2_score, roc_auc_score, precision_score, accuracy_score, confusion_matrix, classification_report, f1_score\n",
+-    "from parameterOptimization.HyperparameterOpt import HyperparamOpt_CV, HyperparamOpt_Valid\n",
++    "from deepmol.loaders.Loaders import CSVLoader\n",
++    "from deepmol.compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
++    "from deepmol.featureSelection.baseFeatureSelector import LowVarianceFS\n",
++    "from deepmol.splitters.splitters import SingletaskStratifiedSplitter\n",
++    "from deepmol.models.sklearnModels import SklearnModel\n",
++    "from deepmol.metrics.Metrics import Metric\n",
++    "from deepmol.metrics.metricsFunctions import r2_score, roc_auc_score, precision_score, accuracy_score, confusion_matrix, classification_report, f1_score\n",
++    "from deepmol.parameterOptimization.HyperparameterOpt import HyperparamOpt_CV, HyperparamOpt_Valid\n",
+     "\n",
+     "from sklearn.ensemble import RandomForestClassifier"
+    ]
+@@ -714,4 +714,4 @@
+  },
+  "nbformat": 4,
+  "nbformat_minor": 4
+-}
++}
+\ No newline at end of file
+diff --git a/src/SMOTEENNTest.ipynb b/examples/notebooks/SMOTEENNTest.ipynb
+similarity index 95%
+rename from src/SMOTEENNTest.ipynb
+rename to examples/notebooks/SMOTEENNTest.ipynb
+index 2b79cbf..881e23d 100644
+--- a/src/SMOTEENNTest.ipynb
++++ b/examples/notebooks/SMOTEENNTest.ipynb
+@@ -6,15 +6,15 @@
+    "metadata": {},
+    "outputs": [],
+    "source": [
+-    "from loaders.Loaders import CSVLoader\n",
+-    "from compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
+-    "from featureSelection.baseFeatureSelector import LowVarianceFS\n",
+-    "from splitters.splitters import SingletaskStratifiedSplitter\n",
+-    "from models.sklearnModels import SklearnModel\n",
+-    "from metrics.Metrics import Metric\n",
+-    "from metrics.metricsFunctions import roc_auc_score, precision_score, accuracy_score, confusion_matrix, classification_report\n",
+-    "from parameterOptimization.HyperparameterOpt import GridHyperparamOpt\n",
+-    "from imbalanced_learn.ImbalancedLearn import SMOTEENN\n",
++    "from deepmol.loaders.Loaders import CSVLoader\n",
++    "from deepmol.compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
++    "from deepmol.featureSelection.baseFeatureSelector import LowVarianceFS\n",
++    "from deepmol.splitters.splitters import SingletaskStratifiedSplitter\n",
++    "from deepmol.models.sklearnModels import SklearnModel\n",
++    "from deepmol.metrics.Metrics import Metric\n",
++    "from deepmol.metrics.metricsFunctions import roc_auc_score, precision_score, accuracy_score, confusion_matrix, classification_report\n",
++    "from deepmol.parameterOptimization.HyperparameterOpt import GridHyperparamOpt\n",
++    "from deepmol.imbalanced_learn.ImbalancedLearn import SMOTEENN\n",
+     "\n",
+     "from sklearn.ensemble import RandomForestClassifier"
+    ]
+@@ -409,4 +409,4 @@
+  },
+  "nbformat": 4,
+  "nbformat_minor": 4
+-}
++}
+\ No newline at end of file
+diff --git a/src/SVMTest.ipynb b/examples/notebooks/SVMTest.ipynb
+similarity index 96%
+rename from src/SVMTest.ipynb
+rename to examples/notebooks/SVMTest.ipynb
+index 5f897b1..71d62a0 100644
+--- a/src/SVMTest.ipynb
++++ b/examples/notebooks/SVMTest.ipynb
+@@ -6,14 +6,14 @@
+    "metadata": {},
+    "outputs": [],
+    "source": [
+-    "from loaders.Loaders import CSVLoader\n",
+-    "from compoundFeaturization.rdkitFingerprints import MACCSkeysFingerprint\n",
+-    "from featureSelection.baseFeatureSelector import SelectFromModelFS\n",
+-    "from splitters.splitters import SingletaskStratifiedSplitter\n",
+-    "from models.sklearnModels import SklearnModel\n",
+-    "from metrics.Metrics import Metric\n",
+-    "from metrics.metricsFunctions import roc_auc_score, precision_score, accuracy_score, confusion_matrix, classification_report\n",
+-    "from parameterOptimization.HyperparameterOpt import GridHyperparamOpt\n",
++    "from deepmol.loaders.Loaders import CSVLoader\n",
++    "from deepmol.compoundFeaturization.rdkitFingerprints import MACCSkeysFingerprint\n",
++    "from deepmol.featureSelection.baseFeatureSelector import SelectFromModelFS\n",
++    "from deepmol.splitters.splitters import SingletaskStratifiedSplitter\n",
++    "from deepmol.models.sklearnModels import SklearnModel\n",
++    "from deepmol.metrics.Metrics import Metric\n",
++    "from deepmol.metrics.metricsFunctions import roc_auc_score, precision_score, accuracy_score, confusion_matrix, classification_report\n",
++    "from deepmol.parameterOptimization.HyperparameterOpt import GridHyperparamOpt\n",
+     "\n",
+     "from sklearn.svm import SVC"
+    ]
+@@ -555,4 +555,4 @@
+  },
+  "nbformat": 4,
+  "nbformat_minor": 4
+-}
++}
+\ No newline at end of file
+diff --git a/src/regression_test.ipynb b/examples/notebooks/regression_test.ipynb
+similarity index 97%
+rename from src/regression_test.ipynb
+rename to examples/notebooks/regression_test.ipynb
+index 7d7f00c..d294cbf 100644
+--- a/src/regression_test.ipynb
++++ b/examples/notebooks/regression_test.ipynb
+@@ -25,19 +25,19 @@
+     }
+    ],
+    "source": [
+-    "from loaders.Loaders import CSVLoader\n",
+-    "from compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
+-    "from splitters.splitters import SingletaskStratifiedSplitter\n",
++    "from deepmol.loaders.Loaders import CSVLoader\n",
++    "from deepmol.compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
++    "from deepmol.splitters.splitters import SingletaskStratifiedSplitter\n",
+     "\n",
+     "from sklearn.ensemble import RandomForestRegressor\n",
+-    "from models.sklearnModels import SklearnModel\n",
+-    "from metrics.Metrics import Metric\n",
+-    "from metrics.metricsFunctions import r2_score, mean_absolute_error, mean_squared_error, median_absolute_error\n",
++    "from deepmol.models.sklearnModels import SklearnModel\n",
++    "from deepmol.metrics.Metrics import Metric\n",
++    "from deepmol.metrics.metricsFunctions import r2_score, mean_absolute_error, mean_squared_error, median_absolute_error\n",
+     "\n",
+     "import tensorflow as tf\n",
+     "print(tf.version.VERSION)\n",
+     "\n",
+-    "from parameterOptimization.HyperparameterOpt import HyperparamOpt_Valid, HyperparamOpt_CV\n"
++    "from deepmol.parameterOptimization.HyperparameterOpt import HyperparamOpt_Valid, HyperparamOpt_CV\n"
+    ]
+   },
+   {
+@@ -361,4 +361,4 @@
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+-}
++}
+\ No newline at end of file
+diff --git a/src/test.ipynb b/examples/notebooks/test.ipynb
+similarity index 99%
+rename from src/test.ipynb
+rename to examples/notebooks/test.ipynb
+index e4dcfe7..e85eff6 100644
+--- a/src/test.ipynb
++++ b/examples/notebooks/test.ipynb
+@@ -33,10 +33,10 @@
+    "metadata": {},
+    "outputs": [],
+    "source": [
+-    "from loaders.Loaders import CSVLoader\n",
+-    "from compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
+-    "from featureSelection.baseFeatureSelector import LowVarianceFS\n",
+-    "from unsupervised.baseUnsupervised import PCA, TSNE, KMeans"
++    "from deepmol.loaders.Loaders import CSVLoader\n",
++    "from deepmol.compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
++    "from deepmol.featureSelection.baseFeatureSelector import LowVarianceFS\n",
++    "from deepmol.unsupervised.baseUnsupervised import PCA, TSNE, KMeans"
+    ]
+   },
+   {
+@@ -22527,7 +22527,7 @@
+           -0.6127781208012582,
+           -0.9038109623088957,
+           -1.1822817702245536,
+-          -8.837200216650736e-05,
++          -0.00008837200216650736,
+           -1.3047463719870056,
+           -1.123927635528584,
+           -0.554470096432672,
+@@ -24524,7 +24524,7 @@
+           -0.8465697142999772,
+           3.8779856972209914,
+           3.60253992867778,
+-          -1.0396115163023821e-05,
++          -0.000010396115163023821,
+           0.15849694304948334,
+           2.287326347409372,
+           0.008825486248598764,
+@@ -70022,7 +70022,7 @@
+           -0.6127782901431564,
+           -0.9038103739991828,
+           -1.1822825351199429,
+-          -8.780773754344257e-05,
++          -0.00008780773754344257,
+           -1.3047456988887876,
+           -1.1239272293460714,
+           -0.5544708985282373,
+@@ -72019,7 +72019,7 @@
+           -0.8465701743063405,
+           3.877986159326846,
+           3.602538945774593,
+-          -9.517186546669526e-06,
++          -0.000009517186546669526,
+           0.1584979723890373,
+           2.2873264634358406,
+           0.008825317150765358,
+@@ -112894,7 +112894,7 @@
+           0.06282028419078883,
+           0.22486972064473412,
+           0.16881032058846504,
+-          1.0556469394364249e-05,
++          0.000010556469394364249,
+           1.0463617644718455,
+           0.24540932647974367,
+           0.22745961787265798,
+@@ -117442,7 +117442,7 @@
+           0.2693157942667503,
+           0.29736702955522687,
+           -0.07168293403855233,
+-          -9.526750458796448e-05,
++          -0.00009526750458796448,
+           0.05339013525545064,
+           -0.12476757632684139,
+           -0.1564781024610681,
+@@ -140816,7 +140816,7 @@
+             -0.6127790983529431,
+             -0.9038101335322558,
+             -1.1822826994839275,
+-            -8.83899131341518e-05,
++            -0.0000883899131341518,
+             -1.304745361196332,
+             -1.1239272375712868,
+             -0.5544715145276709,
+@@ -142813,7 +142813,7 @@
+             -0.8465706028695744,
+             3.8779856088785984,
+             3.6025409764855203,
+-            -1.070085735631105e-05,
++            -0.00001070085735631105,
+             0.15849667987117824,
+             2.287325882310213,
+             0.008825444398468075,
+@@ -183694,7 +183694,7 @@
+             0.06280710127036003,
+             0.22483510704451445,
+             0.1688038624870687,
+-            -1.6378643056432967e-05,
++            -0.000016378643056432967,
+             1.0463785019279728,
+             0.24540368129350026,
+             0.22744451568575097,
+@@ -195458,7 +195458,7 @@
+             -1.307906038791494,
+             -0.4915819942002971,
+             0.12568682161991948,
+-            4.005805193183573e-05,
++            0.00004005805193183573,
+             -0.7663333226306969,
+             -0.6771883529203161,
+             -1.0230735177575827,
+@@ -211420,7 +211420,7 @@
+             -0.2923657769994654,
+             -1.2169590349294996,
+             -1.0610167091041118,
+-            9.127182102557519e-05,
++            0.00009127182102557519,
+             0.19280610602877227,
+             -0.27494620555738947,
+             -0.7370626015591749,
+@@ -220255,7 +220255,7 @@
+             -0.6494988196463009,
+             -0.1958318647638378,
+             1.35369168530422,
+-            3.516464732390277e-05,
++            0.00003516464732390277,
+             -0.0795228747782276,
+             -1.0461714697900584,
+             -0.05427946859526481,
+@@ -232207,7 +232207,7 @@
+             0.26932641335388846,
+             0.29738486423733745,
+             -0.07166928007051886,
+-            -8.15614654208788e-05,
++            -0.0000815614654208788,
+             0.0534032473690816,
+             -0.1247499400199697,
+             -0.15646153212511033,
+@@ -234747,7 +234747,7 @@
+             -0.10472747375790928,
+             -0.22764656418178675,
+             -0.11166359542261753,
+-            -9.17329506621763e-05,
++            -0.0000917329506621763,
+             0.15894698540345756,
+             0.2908860378854744,
+             -0.07748519942629853,
+@@ -238995,4 +238995,4 @@
+  },
+  "nbformat": 4,
+  "nbformat_minor": 4
+-}
++}
+\ No newline at end of file
+diff --git a/src/test_cnn_keras.ipynb b/examples/notebooks/test_cnn_keras.ipynb
+similarity index 98%
+rename from src/test_cnn_keras.ipynb
+rename to examples/notebooks/test_cnn_keras.ipynb
+index 3f745df..31e7b40 100644
+--- a/src/test_cnn_keras.ipynb
++++ b/examples/notebooks/test_cnn_keras.ipynb
+@@ -28,13 +28,13 @@
+     }
+    ],
+    "source": [
+-    "from loaders.Loaders import CSVLoader\n",
+-    "from compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
+-    "from featureSelection.baseFeatureSelector import LowVarianceFS\n",
+-    "from splitters.splitters import SingletaskStratifiedSplitter\n",
+-    "from models.kerasModels import KerasModel\n",
+-    "from metrics.Metrics import Metric\n",
+-    "from metrics.metricsFunctions import f1_score, roc_auc_score, precision_score, accuracy_score, confusion_matrix, classification_report\n",
++    "from deepmol.loaders.Loaders import CSVLoader\n",
++    "from deepmol.compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
++    "from deepmol.featureSelection.baseFeatureSelector import LowVarianceFS\n",
++    "from deepmol.splitters.splitters import SingletaskStratifiedSplitter\n",
++    "from deepmol.models.kerasModels import KerasModel\n",
++    "from deepmol.metrics.Metrics import Metric\n",
++    "from deepmol.metrics.metricsFunctions import f1_score, roc_auc_score, precision_score, accuracy_score, confusion_matrix, classification_report\n",
+     "\n",
+     "\n",
+     "import tensorflow as tf\n",
+@@ -645,4 +645,4 @@
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+-}
++}
+\ No newline at end of file
+diff --git a/src/test_keras.ipynb b/examples/notebooks/test_keras.ipynb
+similarity index 98%
+rename from src/test_keras.ipynb
+rename to examples/notebooks/test_keras.ipynb
+index 9900e9d..f45beb8 100644
+--- a/src/test_keras.ipynb
++++ b/examples/notebooks/test_keras.ipynb
+@@ -35,13 +35,13 @@
+     }
+    ],
+    "source": [
+-    "from loaders.Loaders import CSVLoader\n",
+-    "from compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
+-    "from featureSelection.baseFeatureSelector import LowVarianceFS\n",
+-    "from splitters.splitters import SingletaskStratifiedSplitter\n",
+-    "from models.kerasModels import KerasModel\n",
+-    "from metrics.Metrics import Metric\n",
+-    "from metrics.metricsFunctions import roc_auc_score, precision_score, accuracy_score, confusion_matrix, classification_report\n",
++    "from deepmol.loaders.Loaders import CSVLoader\n",
++    "from deepmol.compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
++    "from deepmol.featureSelection.baseFeatureSelector import LowVarianceFS\n",
++    "from deepmol.splitters.splitters import SingletaskStratifiedSplitter\n",
++    "from deepmol.models.kerasModels import KerasModel\n",
++    "from deepmol.metrics.Metrics import Metric\n",
++    "from deepmol.metrics.metricsFunctions import roc_auc_score, precision_score, accuracy_score, confusion_matrix, classification_report\n",
+     "\n",
+     "\n",
+     "import tensorflow as tf\n",
+@@ -812,4 +812,4 @@
+  },
+  "nbformat": 4,
+  "nbformat_minor": 4
+-}
++}
+\ No newline at end of file
+diff --git a/setup.py b/setup.py
+new file mode 100644
+index 0000000..922e4f9
+--- /dev/null
++++ b/setup.py
+@@ -0,0 +1,22 @@
++from setuptools import setup, find_packages
++
++setup(
++    name="deepmol",
++    version="0.1.0",
++    author="Centre of Biological Engineering",
++    package_dir={'': 'src'},
++    packages=find_packages(where='src'),
++    install_requires=[
++        'MolVS',
++        'imblearn',
++        'kneed',
++        'numpy',
++        'pandas',
++        'plotly',
++        'rdkit-pypi',
++        'seaborn',
++        'sklearn',
++        'tensorflow',
++    ],
++    url="https://github.com/BioSystemsUM/DeepMol",
++)
+diff --git a/src/.ipynb_checkpoints/RandomForestTest-checkpoint.ipynb b/src/.ipynb_checkpoints/RandomForestTest-checkpoint.ipynb
+deleted file mode 100644
+index 41892e6..0000000
+--- a/src/.ipynb_checkpoints/RandomForestTest-checkpoint.ipynb
++++ /dev/null
+@@ -1,633 +0,0 @@
+-{
+- "cells": [
+-  {
+-   "cell_type": "code",
+-   "execution_count": 18,
+-   "metadata": {},
+-   "outputs": [],
+-   "source": [
+-    "from loaders.Loaders import CSVLoader\n",
+-    "from compoundFeaturization.rdkitFingerprints import MorganFingerprint\n",
+-    "from featureSelection.baseFeatureSelector import LowVarianceFS\n",
+-    "from splitters.splitters import SingletaskStratifiedSplitter\n",
+-    "from models.sklearnModels import SklearnModel\n",
+-    "from metrics.Metrics import Metric\n",
+-    "from metrics.metricsFunctions import r2_score, roc_auc_score, precision_score, accuracy_score, confusion_matrix, classification_report, f1_score\n",
+-    "from parameterOptimization.HyperparameterOpt import HyperparamOpt_CV, HyperparamOpt_Valid\n",
+-    "\n",
+-    "from sklearn.ensemble import RandomForestClassifier"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": 2,
+-   "metadata": {},
+-   "outputs": [
+-    {
+-     "name": "stdout",
+-     "output_type": "stream",
+-     "text": [
+-      "Mols_shape:  23290\n",
+-      "Features_shape:  X not defined!\n",
+-      "Labels_shape:  (23290,)\n"
+-     ]
+-    }
+-   ],
+-   "source": [
+-    "#Load Dataset\n",
+-    "dataset = CSVLoader(dataset_path='preprocessed_dataset_wfoodb.csv', \n",
+-    "                    mols_field='Smiles', \n",
+-    "                    labels_fields='Class', \n",
+-    "                    id_field='ID')#, shard_size=4000)\n",
+-    "dataset = dataset.create_dataset()\n",
+-    "dataset.get_shape()"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": 3,
+-   "metadata": {},
+-   "outputs": [
+-    {
+-     "name": "stdout",
+-     "output_type": "stream",
+-     "text": [
+-      "Featurizing datapoint 0\n",
+-      "Featurizing datapoint 1000\n",
+-      "Featurizing datapoint 2000\n",
+-      "Featurizing datapoint 3000\n",
+-      "Featurizing datapoint 4000\n",
+-      "Featurizing datapoint 5000\n",
+-      "Featurizing datapoint 6000\n"
+-     ]
+-    },
+-    {
+-     "name": "stderr",
+-     "output_type": "stream",
+-     "text": [
+-      "RDKit ERROR: [13:31:02] Explicit valence for atom # 1 Cl, 4, is greater than permitted\n"
+-     ]
+-    },
+-    {
+-     "name": "stdout",
+-     "output_type": "stream",
+-     "text": [
+-      "error in smile: O=[Cl]=O\n",
+-      "Featurizing datapoint 7000\n"
+-     ]
+-    },
+-    {
+-     "name": "stderr",
+-     "output_type": "stream",
+-     "text": [
+-      "RDKit ERROR: [13:31:05] Explicit valence for atom # 3 B, 4, is greater than permitted\n",
+-      "RDKit ERROR: [13:31:05] Explicit valence for atom # 1 Cl, 9, is greater than permitted\n"
+-     ]
+-    },
+-    {
+-     "name": "stdout",
+-     "output_type": "stream",
+-     "text": [
+-      "error in smile: OB1O[B]2(O)OB(O)O[B](O)(O1)O2\n",
+-      "error in smile: O=[Cl-](=O)(=O)=O\n",
+-      "Featurizing datapoint 8000\n",
+-      "Featurizing datapoint 9000\n",
+-      "Featurizing datapoint 10000\n",
+-      "Featurizing datapoint 11000\n",
+-      "Featurizing datapoint 12000\n",
+-      "Featurizing datapoint 13000\n",
+-      "Featurizing datapoint 14000\n"
+-     ]
+-    },
+-    {
+-     "name": "stderr",
+-     "output_type": "stream",
+-     "text": [
+-      "RDKit ERROR: [13:31:19] Explicit valence for atom # 0 P, 11, is greater than permitted\n"
+-     ]
+-    },
+-    {
+-     "name": "stdout",
+-     "output_type": "stream",
+-     "text": [
+-      "error in smile: [P](OCC=C(C)C)(OCC=C(C)C)(=O)(OP(OCC=C(C)C)(OCC=C(C)C)=O)(CC=C(C)C)(CC=C(C)C)(CC=C(C)C)(CC=C(C)C)(CC=C(C)C)CC=C(C)C\n",
+-      "Featurizing datapoint 15000\n",
+-      "Featurizing datapoint 16000\n",
+-      "Featurizing datapoint 17000\n",
+-      "Featurizing datapoint 18000\n",
+-      "Featurizing datapoint 19000\n",
+-      "Featurizing datapoint 20000\n",
+-      "Featurizing datapoint 21000\n",
+-      "Featurizing datapoint 22000\n",
+-      "Featurizing datapoint 23000\n",
+-      "Elements with indexes:  [6257, 7708, 7709, 14244]  were removed due to the presence of NAs!\n",
+-      "The elements in question are:  ['O=[Cl]=O' 'OB1O[B]2(O)OB(O)O[B](O)(O1)O2' 'O=[Cl-](=O)(=O)=O'\n",
+-      " '[P](OCC=C(C)C)(OCC=C(C)C)(=O)(OP(OCC=C(C)C)(OCC=C(C)C)=O)(CC=C(C)C)(CC=C(C)C)(CC=C(C)C)(CC=C(C)C)(CC=C(C)C)CC=C(C)C']\n",
+-      "Mols_shape:  23286\n",
+-      "Features_shape:  (23286, 1024)\n",
+-      "Labels_shape:  (23286,)\n"
+-     ]
+-    }
+-   ],
+-   "source": [
+-    "#Featurization\n",
+-    "dataset = MorganFingerprint().featurize(dataset)\n",
+-    "dataset.get_shape()"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": 4,
+-   "metadata": {},
+-   "outputs": [
+-    {
+-     "name": "stdout",
+-     "output_type": "stream",
+-     "text": [
+-      "Mols_shape:  23286\n",
+-      "Features_shape:  (23286, 49)\n",
+-      "Labels_shape:  (23286,)\n"
+-     ]
+-    }
+-   ],
+-   "source": [
+-    "#Feature Selection\n",
+-    "dataset = LowVarianceFS(0.15).featureSelection(dataset)\n",
+-    "dataset.get_shape()"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": 5,
+-   "metadata": {},
+-   "outputs": [],
+-   "source": [
+-    "#Data Split\n",
+-    "splitter = SingletaskStratifiedSplitter()\n",
+-    "train_dataset, valid_dataset, test_dataset = splitter.train_valid_test_split(dataset=dataset, frac_train=0.6, \n",
+-    "                                                                             frac_valid=0.2, frac_test=0.2)"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": 6,
+-   "metadata": {},
+-   "outputs": [],
+-   "source": [
+-    "#Scikit-Learn Random Forest\n",
+-    "rf = RandomForestClassifier()\n",
+-    "model = SklearnModel(model=rf)"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": 7,
+-   "metadata": {},
+-   "outputs": [
+-    {
+-     "name": "stdout",
+-     "output_type": "stream",
+-     "text": [
+-      "Computing Stratified K-fold split\n",
+-      "\n",
+-      "Split 1 :\n",
+-      "Train Score: \n",
+-      "roc_auc_score: \n",
+-      " 0.847533080527207\n",
+-      "Test Score: \n",
+-      "roc_auc_score: \n",
+-      " 0.6721021330485958\n",
+-      "\n",
+-      "Split 2 :\n",
+-      "Train Score: \n",
+-      "roc_auc_score: \n",
+-      " 0.8511428603099589\n",
+-      "Test Score: \n",
+-      "roc_auc_score: \n",
+-      " 0.6281592635232847\n",
+-      "\n",
+-      "Split 3 :\n",
+-      "Train Score: \n",
+-      "roc_auc_score: \n",
+-      " 0.8568394299655292\n",
+-      "Test Score: \n",
+-      "roc_auc_score: \n",
+-      " 0.64647748640958\n"
+-     ]
+-    },
+-    {
+-     "data": {
+-      "text/plain": [
+-       "(SklearnModel(model=RandomForestClassifier()),\n",
+-       " 0.847533080527207,\n",
+-       " 0.6721021330485958,\n",
+-       " [0.847533080527207, 0.8511428603099589, 0.8568394299655292],\n",
+-       " [0.6721021330485958, 0.6281592635232847, 0.64647748640958],\n",
+-       " 0.8518384569342317,\n",
+-       " 0.6489129609938202)"
+-      ]
+-     },
+-     "execution_count": 7,
+-     "metadata": {},
+-     "output_type": "execute_result"
+-    }
+-   ],
+-   "source": [
+-    "#cross validation\n",
+-    "model.cross_validate(dataset, Metric(roc_auc_score), folds=3)"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": 8,
+-   "metadata": {},
+-   "outputs": [
+-    {
+-     "data": {
+-      "text/plain": [
+-       "RandomForestClassifier()"
+-      ]
+-     },
+-     "execution_count": 8,
+-     "metadata": {},
+-     "output_type": "execute_result"
+-    }
+-   ],
+-   "source": [
+-    "# model training\n",
+-    "model.fit(train_dataset)"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": 9,
+-   "metadata": {},
+-   "outputs": [
+-    {
+-     "name": "stdout",
+-     "output_type": "stream",
+-     "text": [
+-      "#############################\n",
+-      "Training Dataset: \n",
+-      "roc_auc_score: \n",
+-      " 0.8607542577201266\n",
+-      "precision_score: \n",
+-      " 0.9330065359477124\n",
+-      "accuracy_score: \n",
+-      " 0.9815292096219931\n",
+-      "confusion_matrix: \n",
+-      " [[13139    41]\n",
+-      " [  217   571]]\n",
+-      "classification_report: \n",
+-      "               precision    recall  f1-score   support\n",
+-      "\n",
+-      "           0       0.98      1.00      0.99     13180\n",
+-      "           1       0.93      0.72      0.82       788\n",
+-      "\n",
+-      "    accuracy                           0.98     13968\n",
+-      "   macro avg       0.96      0.86      0.90     13968\n",
+-      "weighted avg       0.98      0.98      0.98     13968\n",
+-      "\n",
+-      "WARNING: task averager  cannot perform reduce with flexible type\n",
+-      "#############################\n",
+-      "Validation Dataset: \n",
+-      "roc_auc_score: \n",
+-      " 0.6532435005795661\n",
+-      "precision_score: \n",
+-      " 0.5555555555555556\n",
+-      "accuracy_score: \n",
+-      " 0.9469501718213058\n",
+-      "confusion_matrix: \n",
+-      " [[4324   68]\n",
+-      " [ 179   85]]\n",
+-      "classification_report: \n",
+-      "               precision    recall  f1-score   support\n",
+-      "\n",
+-      "           0       0.96      0.98      0.97      4392\n",
+-      "           1       0.56      0.32      0.41       264\n",
+-      "\n",
+-      "    accuracy                           0.95      4656\n",
+-      "   macro avg       0.76      0.65      0.69      4656\n",
+-      "weighted avg       0.94      0.95      0.94      4656\n",
+-      "\n",
+-      "WARNING: task averager  cannot perform reduce with flexible type\n",
+-      "#############################\n",
+-      "Test Dataset: \n",
+-      "roc_auc_score: \n",
+-      " 0.6456677430038086\n",
+-      "precision_score: \n",
+-      " 0.5436241610738255\n",
+-      "accuracy_score: \n",
+-      " 0.9460910652920962\n",
+-      "confusion_matrix: \n",
+-      " [[4324   68]\n",
+-      " [ 183   81]]\n",
+-      "classification_report: \n",
+-      "               precision    recall  f1-score   support\n",
+-      "\n",
+-      "           0       0.96      0.98      0.97      4392\n",
+-      "           1       0.54      0.31      0.39       264\n",
+-      "\n",
+-      "    accuracy                           0.95      4656\n",
+-      "   macro avg       0.75      0.65      0.68      4656\n",
+-      "weighted avg       0.94      0.95      0.94      4656\n",
+-      "\n",
+-      "WARNING: task averager  cannot perform reduce with flexible type\n",
+-      "#############################\n"
+-     ]
+-    }
+-   ],
+-   "source": [
+-    "metrics = [Metric(roc_auc_score), Metric(precision_score), Metric(accuracy_score), Metric(confusion_matrix), \n",
+-    "           Metric(classification_report)]\n",
+-    "print(\"#############################\")\n",
+-    "# evaluate the model\n",
+-    "print('Training Dataset: ')\n",
+-    "train_score = model.evaluate(train_dataset, metrics)\n",
+-    "print(\"#############################\")\n",
+-    "print('Validation Dataset: ')\n",
+-    "valid_score = model.evaluate(valid_dataset, metrics)\n",
+-    "print(\"#############################\")\n",
+-    "print('Test Dataset: ')\n",
+-    "test_score = model.evaluate(test_dataset, metrics)\n",
+-    "print(\"#############################\")"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": 21,
+-   "metadata": {},
+-   "outputs": [],
+-   "source": [
+-    "#Build a model function for hyperparameter optimization\n",
+-    "def rf_model_builder(n_estimators, max_features, class_weight):\n",
+-    "    rf_model = RandomForestClassifier(n_estimators=n_estimators, max_features=max_features, \n",
+-    "                                      class_weight=class_weight)\n",
+-    "    return rf_model\n",
+-    "\n",
+-    "params_dict_rf = {\"n_estimators\": [10, 100],\n",
+-    "                  \"max_features\": [\"auto\", \"sqrt\", \"log2\", None]}#,\n",
+-    "                  #\"class_weight\": [{0: 1., 1: 1.}, {0: 1., 1: 5}, {0: 1., 1: 10}]\n",
+-    "                  #}\n",
+-    "    \n"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": 22,
+-   "metadata": {},
+-   "outputs": [
+-    {
+-     "name": "stdout",
+-     "output_type": "stream",
+-     "text": [
+-      "MODE:  None\n",
+-      "Fitting 15 random models from a space of 24 possible models.\n",
+-      "Fitting model 1/15\n",
+-      "hyperparameters: {'n_estimators': 10, 'max_features': 'auto', 'class_weight': {0: 1.0, 1: 1.0}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.9428694158075601\n",
+-      "Model 1/15, Metric accuracy_score, Validation set 1: 0.942869\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 2/15\n",
+-      "hyperparameters: {'n_estimators': 10, 'max_features': 'auto', 'class_weight': {0: 1.0, 1: 5}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.9314862542955327\n",
+-      "Model 2/15, Metric accuracy_score, Validation set 2: 0.931486\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 3/15\n",
+-      "hyperparameters: {'n_estimators': 10, 'max_features': 'auto', 'class_weight': {0: 1.0, 1: 10}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.928479381443299\n",
+-      "Model 3/15, Metric accuracy_score, Validation set 3: 0.928479\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 4/15\n",
+-      "hyperparameters: {'n_estimators': 10, 'max_features': 'sqrt', 'class_weight': {0: 1.0, 1: 1.0}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.9417955326460481\n",
+-      "Model 4/15, Metric accuracy_score, Validation set 4: 0.941796\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 5/15\n",
+-      "hyperparameters: {'n_estimators': 10, 'max_features': 'sqrt', 'class_weight': {0: 1.0, 1: 10}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.928479381443299\n",
+-      "Model 5/15, Metric accuracy_score, Validation set 5: 0.928479\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 6/15\n",
+-      "hyperparameters: {'n_estimators': 10, 'max_features': 'log2', 'class_weight': {0: 1.0, 1: 1.0}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.9411512027491409\n",
+-      "Model 6/15, Metric accuracy_score, Validation set 6: 0.941151\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 7/15\n",
+-      "hyperparameters: {'n_estimators': 10, 'max_features': 'log2', 'class_weight': {0: 1.0, 1: 5}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.9312714776632303\n",
+-      "Model 7/15, Metric accuracy_score, Validation set 7: 0.931271\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 8/15\n",
+-      "hyperparameters: {'n_estimators': 10, 'max_features': 'log2', 'class_weight': {0: 1.0, 1: 10}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.926331615120275\n",
+-      "Model 8/15, Metric accuracy_score, Validation set 8: 0.926332\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 9/15\n",
+-      "hyperparameters: {'n_estimators': 10, 'max_features': None, 'class_weight': {0: 1.0, 1: 1.0}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.9424398625429553\n",
+-      "Model 9/15, Metric accuracy_score, Validation set 9: 0.942440\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 10/15\n",
+-      "hyperparameters: {'n_estimators': 10, 'max_features': None, 'class_weight': {0: 1.0, 1: 5}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.9297680412371134\n",
+-      "Model 10/15, Metric accuracy_score, Validation set 10: 0.929768\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 11/15\n",
+-      "hyperparameters: {'n_estimators': 100, 'max_features': 'auto', 'class_weight': {0: 1.0, 1: 10}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.9308419243986255\n",
+-      "Model 11/15, Metric accuracy_score, Validation set 11: 0.930842\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 12/15\n",
+-      "hyperparameters: {'n_estimators': 100, 'max_features': 'sqrt', 'class_weight': {0: 1.0, 1: 5}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.936426116838488\n",
+-      "Model 12/15, Metric accuracy_score, Validation set 12: 0.936426\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 13/15\n",
+-      "hyperparameters: {'n_estimators': 100, 'max_features': 'log2', 'class_weight': {0: 1.0, 1: 5}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.9387886597938144\n",
+-      "Model 13/15, Metric accuracy_score, Validation set 13: 0.938789\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 14/15\n",
+-      "hyperparameters: {'n_estimators': 100, 'max_features': 'log2', 'class_weight': {0: 1.0, 1: 10}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.9293384879725086\n",
+-      "Model 14/15, Metric accuracy_score, Validation set 14: 0.929338\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "Fitting model 15/15\n",
+-      "hyperparameters: {'n_estimators': 100, 'max_features': None, 'class_weight': {0: 1.0, 1: 5}}\n",
+-      "expected str, bytes or os.PathLike object, not NoneType\n",
+-      "accuracy_score: \n",
+-      " 0.9323453608247423\n",
+-      "Model 15/15, Metric accuracy_score, Validation set 15: 0.932345\n",
+-      "\tbest_validation_score so far: 0.942869\n",
+-      "accuracy_score: \n",
+-      " 0.9804553264604811\n",
+-      "Best hyperparameters: (10, 'auto', {0: 1.0, 1: 1.0})\n",
+-      "train_score: 0.980455\n",
+-      "validation_score: 0.942869\n",
+-      "#################\n",
+-      "(10, 'auto', {0: 1.0, 1: 1.0})\n",
+-      "SklearnModel(mode='/tmp/tmphyjtxz9g',\n",
+-      "             model=RandomForestClassifier(class_weight={0: 1.0, 1: 1.0},\n",
+-      "                                          n_estimators=10))\n"
+-     ]
+-    }
+-   ],
+-   "source": [
+-    "#Hyperparameter Optimization\n",
+-    "optimizer = HyperparamOpt_Valid(rf_model_builder)\n",
+-    "\n",
+-    "best_rf, best_hyperparams, all_results = optimizer.hyperparam_search(params_dict_rf, \n",
+-    "                                                                     train_dataset, \n",
+-    "                                                                     valid_dataset, \n",
+-    "                                                                     Metric(accuracy_score))\n",
+-    "\n",
+-    "print('#################')\n",
+-    "print(best_hyperparams)\n",
+-    "print(best_rf)"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": 25,
+-   "metadata": {},
+-   "outputs": [
+-    {
+-     "name": "stdout",
+-     "output_type": "stream",
+-     "text": [
+-      "Fitting 10 random models from a space of 24 possible models.\n",
+-      "(13968, 49) 4656.0\n"
+-     ]
+-    },
+-    {
+-     "name": "stderr",
+-     "output_type": "stream",
+-     "text": [
+-      "/opt/conda/lib/python3.6/site-packages/sklearn/model_selection/_validation.py:552: FitFailedWarning: Estimator fit failed. The score on this train-test partition for these parameters will be set to nan. Details: \n",
+-      "Traceback (most recent call last):\n",
+-      "  File \"/opt/conda/lib/python3.6/site-packages/sklearn/model_selection/_validation.py\", line 531, in _fit_and_score\n",
+-      "    estimator.fit(X_train, y_train, **fit_params)\n",
+-      "  File \"/opt/conda/lib/python3.6/site-packages/tensorflow/python/keras/wrappers/scikit_learn.py\", line 223, in fit\n",
+-      "    return super(KerasClassifier, self).fit(x, y, **kwargs)\n",
+-      "  File \"/opt/conda/lib/python3.6/site-packages/tensorflow/python/keras/wrappers/scikit_learn.py\", line 159, in fit\n",
+-      "    if (losses.is_categorical_crossentropy(self.model.loss) and\n",
+-      "AttributeError: 'RandomForestClassifier' object has no attribute 'loss'\n",
+-      "\n",
+-      "  FitFailedWarning)\n"
+-     ]
+-    },
+-    {
+-     "ename": "RuntimeError",
+-     "evalue": "Cannot clone object <tensorflow.python.keras.wrappers.scikit_learn.KerasClassifier object at 0x7f9bd507b7f0>, as the constructor either does not set or modifies parameter class_weight",
+-     "output_type": "error",
+-     "traceback": [
+-      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+-      "\u001b[0;31mRuntimeError\u001b[0m                              Traceback (most recent call last)",
+-      "\u001b[0;32m<ipython-input-25-6048d2d9a6b0>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      6\u001b[0m                                                                      \u001b[0;34m'accuracy'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      7\u001b[0m                                                                      \u001b[0mcv\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m3\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 8\u001b[0;31m                                                                      n_iter_search=10)\n\u001b[0m\u001b[1;32m      9\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     10\u001b[0m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'#################'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+-      "\u001b[0;32m/data3/parameterOptimization/HyperparameterOpt.py\u001b[0m in \u001b[0;36mhyperparam_search\u001b[0;34m(self, params_dict, train_dataset, metric, cv, n_iter_search, n_jobs, verbose, logdir, **kwargs)\u001b[0m\n\u001b[1;32m    346\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    347\u001b[0m         \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtrain_dataset\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mX\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mshape\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mtrain_dataset\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mX\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mshape\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m0\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m/\u001b[0m\u001b[0mcv\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 348\u001b[0;31m         \u001b[0mgrid_result\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mgrid\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfit\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtrain_dataset\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mX\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mtrain_dataset\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0my\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    349\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    350\u001b[0m         \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"\\n \\n Best %s: %f using %s\"\u001b[0m \u001b[0;34m%\u001b[0m \u001b[0;34m(\u001b[0m\u001b[0mmetrics\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mgrid_result\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mbest_score_\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mgrid_result\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mbest_params_\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+-      "\u001b[0;32m/opt/conda/lib/python3.6/site-packages/sklearn/utils/validation.py\u001b[0m in \u001b[0;36minner_f\u001b[0;34m(*args, **kwargs)\u001b[0m\n\u001b[1;32m     70\u001b[0m                           FutureWarning)\n\u001b[1;32m     71\u001b[0m         \u001b[0mkwargs\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mupdate\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m{\u001b[0m\u001b[0mk\u001b[0m\u001b[0;34m:\u001b[0m \u001b[0marg\u001b[0m \u001b[0;32mfor\u001b[0m \u001b[0mk\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0marg\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mzip\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0msig\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mparameters\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0margs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m}\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 72\u001b[0;31m         \u001b[0;32mreturn\u001b[0m \u001b[0mf\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     73\u001b[0m     \u001b[0;32mreturn\u001b[0m \u001b[0minner_f\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     74\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+-      "\u001b[0;32m/opt/conda/lib/python3.6/site-packages/sklearn/model_selection/_search.py\u001b[0m in \u001b[0;36mfit\u001b[0;34m(self, X, y, groups, **fit_params)\u001b[0m\n\u001b[1;32m    760\u001b[0m             \u001b[0;31m# of the params are estimators as well.\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    761\u001b[0m             self.best_estimator_ = clone(clone(base_estimator).set_params(\n\u001b[0;32m--> 762\u001b[0;31m                 **self.best_params_))\n\u001b[0m\u001b[1;32m    763\u001b[0m             \u001b[0mrefit_start_time\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mtime\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mtime\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    764\u001b[0m             \u001b[0;32mif\u001b[0m \u001b[0my\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+-      "\u001b[0;32m/opt/conda/lib/python3.6/site-packages/sklearn/utils/validation.py\u001b[0m in \u001b[0;36minner_f\u001b[0;34m(*args, **kwargs)\u001b[0m\n\u001b[1;32m     70\u001b[0m                           FutureWarning)\n\u001b[1;32m     71\u001b[0m         \u001b[0mkwargs\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mupdate\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m{\u001b[0m\u001b[0mk\u001b[0m\u001b[0;34m:\u001b[0m \u001b[0marg\u001b[0m \u001b[0;32mfor\u001b[0m \u001b[0mk\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0marg\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mzip\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0msig\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mparameters\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0margs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m}\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 72\u001b[0;31m         \u001b[0;32mreturn\u001b[0m \u001b[0mf\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     73\u001b[0m     \u001b[0;32mreturn\u001b[0m \u001b[0minner_f\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     74\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+-      "\u001b[0;32m/opt/conda/lib/python3.6/site-packages/sklearn/base.py\u001b[0m in \u001b[0;36mclone\u001b[0;34m(estimator, safe)\u001b[0m\n\u001b[1;32m     96\u001b[0m             raise RuntimeError('Cannot clone object %s, as the constructor '\n\u001b[1;32m     97\u001b[0m                                \u001b[0;34m'either does not set or modifies parameter %s'\u001b[0m \u001b[0;34m%\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 98\u001b[0;31m                                (estimator, name))\n\u001b[0m\u001b[1;32m     99\u001b[0m     \u001b[0;32mreturn\u001b[0m \u001b[0mnew_object\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    100\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+-      "\u001b[0;31mRuntimeError\u001b[0m: Cannot clone object <tensorflow.python.keras.wrappers.scikit_learn.KerasClassifier object at 0x7f9bd507b7f0>, as the constructor either does not set or modifies parameter class_weight"
+-     ]
+-    }
+-   ],
+-   "source": [
+-    "#Hyperparameter Optimization with CV\n",
+-    "optimizer = HyperparamOpt_CV(rf_model_builder)\n",
+-    "\n",
+-    "best_rf, best_hyperparams, all_results = optimizer.hyperparam_search(params_dict_rf, \n",
+-    "                                                                     train_dataset,  \n",
+-    "                                                                     'accuracy', \n",
+-    "                                                                     cv=3,\n",
+-    "                                                                     n_iter_search=10)\n",
+-    "\n",
+-    "print('#################')\n",
+-    "print(best_hyperparams)\n",
+-    "print(best_rf)"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": null,
+-   "metadata": {},
+-   "outputs": [],
+-   "source": [
+-    "#Evaluate model\n",
+-    "best_rf.evaluate(test_dataset, metrics)"
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": 14,
+-   "metadata": {},
+-   "outputs": [
+-    {
+-     "data": {
+-      "text/plain": [
+-       "dict_keys(['explained_variance', 'r2', 'max_error', 'neg_median_absolute_error', 'neg_mean_absolute_error', 'neg_mean_squared_error', 'neg_mean_squared_log_error', 'neg_root_mean_squared_error', 'neg_mean_poisson_deviance', 'neg_mean_gamma_deviance', 'accuracy', 'roc_auc', 'roc_auc_ovr', 'roc_auc_ovo', 'roc_auc_ovr_weighted', 'roc_auc_ovo_weighted', 'balanced_accuracy', 'average_precision', 'neg_log_loss', 'neg_brier_score', 'adjusted_rand_score', 'homogeneity_score', 'completeness_score', 'v_measure_score', 'mutual_info_score', 'adjusted_mutual_info_score', 'normalized_mutual_info_score', 'fowlkes_mallows_score', 'precision', 'precision_macro', 'precision_micro', 'precision_samples', 'precision_weighted', 'recall', 'recall_macro', 'recall_micro', 'recall_samples', 'recall_weighted', 'f1', 'f1_macro', 'f1_micro', 'f1_samples', 'f1_weighted', 'jaccard', 'jaccard_macro', 'jaccard_micro', 'jaccard_samples', 'jaccard_weighted'])"
+-      ]
+-     },
+-     "execution_count": 14,
+-     "metadata": {},
+-     "output_type": "execute_result"
+-    }
+-   ],
+-   "source": [
+-    "import sklearn\n",
+-    "sklearn.metrics.SCORERS.keys()"
+-   ]
+-  }
+- ],
+- "metadata": {
+-  "kernelspec": {
+-   "display_name": "Python 3",
+-   "language": "python",
+-   "name": "python3"
+-  },
+-  "language_info": {
+-   "codemirror_mode": {
+-    "name": "ipython",
+-    "version": 3
+-   },
+-   "file_extension": ".py",
+-   "mimetype": "text/x-python",
+-   "name": "python",
+-   "nbconvert_exporter": "python",
+-   "pygments_lexer": "ipython3",
+-   "version": "3.6.2"
+-  }
+- },
+- "nbformat": 4,
+- "nbformat_minor": 4
+-}
+diff --git a/src/deepmol.egg-info/PKG-INFO b/src/deepmol.egg-info/PKG-INFO
+new file mode 100644
+index 0000000..c60b32f
+--- /dev/null
++++ b/src/deepmol.egg-info/PKG-INFO
+@@ -0,0 +1,10 @@
++Metadata-Version: 1.0
++Name: deepmol
++Version: 0.1.0
++Summary: UNKNOWN
++Home-page: https://github.com/BioSystemsUM/DeepMol
++Author: Centre of Biological Engineering
++Author-email: UNKNOWN
++License: UNKNOWN
++Description: UNKNOWN
++Platform: UNKNOWN
+diff --git a/src/deepmol.egg-info/SOURCES.txt b/src/deepmol.egg-info/SOURCES.txt
+new file mode 100644
+index 0000000..d047702
+--- /dev/null
++++ b/src/deepmol.egg-info/SOURCES.txt
+@@ -0,0 +1,7 @@
++README.md
++setup.py
++src/deepmol.egg-info/PKG-INFO
++src/deepmol.egg-info/SOURCES.txt
++src/deepmol.egg-info/dependency_links.txt
++src/deepmol.egg-info/requires.txt
++src/deepmol.egg-info/top_level.txt
+\ No newline at end of file
+diff --git a/src/deepmol.egg-info/dependency_links.txt b/src/deepmol.egg-info/dependency_links.txt
+new file mode 100644
+index 0000000..8b13789
+--- /dev/null
++++ b/src/deepmol.egg-info/dependency_links.txt
+@@ -0,0 +1 @@
++
+diff --git a/src/deepmol.egg-info/requires.txt b/src/deepmol.egg-info/requires.txt
+new file mode 100644
+index 0000000..750bd48
+--- /dev/null
++++ b/src/deepmol.egg-info/requires.txt
+@@ -0,0 +1,10 @@
++MolVS
++imblearn
++kneed
++numpy
++pandas
++plotly
++rdkit-pypi
++seaborn
++sklearn
++tensorflow
+diff --git a/src/deepmol.egg-info/top_level.txt b/src/deepmol.egg-info/top_level.txt
+new file mode 100644
+index 0000000..8b13789
+--- /dev/null
++++ b/src/deepmol.egg-info/top_level.txt
+@@ -0,0 +1 @@
++
+diff --git a/src/Datasets/Datasets.py b/src/deepmol/Datasets/Datasets.py
+similarity index 100%
+rename from src/Datasets/Datasets.py
+rename to src/deepmol/Datasets/Datasets.py
+diff --git a/src/deepmol/Datasets/__init__.py b/src/deepmol/Datasets/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/src/deepmol/compoundFeaturization/__init__.py b/src/deepmol/compoundFeaturization/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/src/compoundFeaturization/baseFeaturizer.py b/src/deepmol/compoundFeaturization/baseFeaturizer.py
+similarity index 97%
+rename from src/compoundFeaturization/baseFeaturizer.py
+rename to src/deepmol/compoundFeaturization/baseFeaturizer.py
+index d184441..58898f5 100644
+--- a/src/compoundFeaturization/baseFeaturizer.py
++++ b/src/deepmol/compoundFeaturization/baseFeaturizer.py
+@@ -6,7 +6,7 @@ from rdkit.Chem import rdmolfiles
+ from rdkit.Chem import rdmolops
+ from rdkit.Chem.rdchem import Mol
+ 
+-from Datasets.Datasets import Dataset
++from deepmol.Datasets.Datasets import Dataset
+ 
+ 
+ class MolecularFeaturizer(object):
+diff --git a/src/compoundFeaturization/mol2vec.py b/src/deepmol/compoundFeaturization/mol2vec.py
+similarity index 94%
+rename from src/compoundFeaturization/mol2vec.py
+rename to src/deepmol/compoundFeaturization/mol2vec.py
+index d227ba9..02c6832 100644
+--- a/src/compoundFeaturization/mol2vec.py
++++ b/src/deepmol/compoundFeaturization/mol2vec.py
+@@ -1,8 +1,8 @@
+ import numpy as np
+ from typing import Any, Optional
+-from compoundFeaturization.baseFeaturizer import MolecularFeaturizer
++from deepmol.compoundFeaturization.baseFeaturizer import MolecularFeaturizer
+ from gensim.models import word2vec
+-from mol2vec.features import mol2alt_sentence, sentences2vec
++from deepmol.mol2vec.features import mol2alt_sentence, sentences2vec
+ import os, sys
+ 
+ class Mol2Vec(MolecularFeaturizer):
+diff --git a/src/compoundFeaturization/mol2vec_models/model_300dim.pkl b/src/deepmol/compoundFeaturization/mol2vec_models/model_300dim.pkl
+similarity index 100%
+rename from src/compoundFeaturization/mol2vec_models/model_300dim.pkl
+rename to src/deepmol/compoundFeaturization/mol2vec_models/model_300dim.pkl
+diff --git a/src/compoundFeaturization/rdkitFingerprints.py b/src/deepmol/compoundFeaturization/rdkitFingerprints.py
+similarity index 99%
+rename from src/compoundFeaturization/rdkitFingerprints.py
+rename to src/deepmol/compoundFeaturization/rdkitFingerprints.py
+index 5978871..f185dc3 100644
+--- a/src/compoundFeaturization/rdkitFingerprints.py
++++ b/src/deepmol/compoundFeaturization/rdkitFingerprints.py
+@@ -1,4 +1,4 @@
+-from compoundFeaturization.baseFeaturizer import MolecularFeaturizer
++from deepmol.compoundFeaturization.baseFeaturizer import MolecularFeaturizer
+ from rdkit.Chem import rdMolDescriptors, MACCSkeys, rdmolops
+ from rdkit import Chem
+ from rdkit.Chem.Fingerprints import FingerprintMols
+diff --git a/src/evaluator/Evaluator.py b/src/deepmol/evaluator/Evaluator.py
+similarity index 98%
+rename from src/evaluator/Evaluator.py
+rename to src/deepmol/evaluator/Evaluator.py
+index 9536eea..2485531 100644
+--- a/src/evaluator/Evaluator.py
++++ b/src/deepmol/evaluator/Evaluator.py
+@@ -4,9 +4,9 @@ import csv
+ from typing import Optional, Union, Tuple, Dict, List, Iterable, Any
+ Score = Dict[str, float]
+ 
+-from Datasets.Datasets import Dataset
+-from splitters.splitters import RandomSplitter
+-from metrics.Metrics import Metric
++from deepmol.Datasets.Datasets import Dataset
++from deepmol.splitters.splitters import RandomSplitter
++from deepmol.metrics.Metrics import Metric
+ 
+ 
+ def _process_metric_input(metrics: Metric) -> List[Metric]:
+diff --git a/src/deepmol/evaluator/__init__.py b/src/deepmol/evaluator/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/src/deepmol/featureSelection/__init__.py b/src/deepmol/featureSelection/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/src/featureSelection/baseFeatureSelector.py b/src/deepmol/featureSelection/baseFeatureSelector.py
+similarity index 99%
+rename from src/featureSelection/baseFeatureSelector.py
+rename to src/deepmol/featureSelection/baseFeatureSelector.py
+index 5c0a0c8..92b4d9b 100644
+--- a/src/featureSelection/baseFeatureSelector.py
++++ b/src/deepmol/featureSelection/baseFeatureSelector.py
+@@ -1,4 +1,4 @@
+-from Datasets.Datasets import Dataset
++from deepmol.Datasets.Datasets import Dataset
+ from sklearn.feature_selection import VarianceThreshold, SelectKBest, chi2, SelectPercentile, RFECV, SelectFromModel
+ from sklearn.ensemble import RandomForestClassifier
+ import pandas as pd
+diff --git a/src/imbalanced_learn/ImbalancedLearn.py b/src/deepmol/imbalanced_learn/ImbalancedLearn.py
+similarity index 99%
+rename from src/imbalanced_learn/ImbalancedLearn.py
+rename to src/deepmol/imbalanced_learn/ImbalancedLearn.py
+index da37e00..10d7703 100644
+--- a/src/imbalanced_learn/ImbalancedLearn.py
++++ b/src/deepmol/imbalanced_learn/ImbalancedLearn.py
+@@ -1,7 +1,7 @@
+ from imblearn import over_sampling, under_sampling, combine
+ from sklearn.cluster import KMeans
+ 
+-from Datasets.Datasets import Dataset
++from deepmol.Datasets.Datasets import Dataset
+ 
+ #TODO: give artificial ids/mols to artificial molecules generated by these methods
+ class ImbalancedLearn(object):
+diff --git a/src/deepmol/imbalanced_learn/__init__.py b/src/deepmol/imbalanced_learn/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/src/loaders/Loaders.py b/src/deepmol/loaders/Loaders.py
+similarity index 99%
+rename from src/loaders/Loaders.py
+rename to src/deepmol/loaders/Loaders.py
+index 66d0197..b181d33 100644
+--- a/src/loaders/Loaders.py
++++ b/src/deepmol/loaders/Loaders.py
+@@ -3,7 +3,7 @@ Classes for processing input data into a format suitable for machine learning.
+ """
+ 
+ from typing import Optional, Union, List
+-from Datasets.Datasets import NumpyDataset
++from deepmol.Datasets.Datasets import NumpyDataset
+ import numpy as np
+ import pandas as pd
+ 
+diff --git a/src/deepmol/loaders/__init__.py b/src/deepmol/loaders/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/src/metrics/Metrics.py b/src/deepmol/metrics/Metrics.py
+similarity index 99%
+rename from src/metrics/Metrics.py
+rename to src/deepmol/metrics/Metrics.py
+index 8fd7510..16db10e 100644
+--- a/src/metrics/Metrics.py
++++ b/src/deepmol/metrics/Metrics.py
+@@ -1,6 +1,6 @@
+ import numpy as np
+ from typing import Callable, Optional, Any
+-from utils.utils import normalize_labels_shape
++from deepmol.utils.utils import normalize_labels_shape
+ 
+ class Metric(object):
+     """Class for computing machine learning metrics.
+diff --git a/src/deepmol/metrics/__init__.py b/src/deepmol/metrics/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/src/metrics/metricsFunctions.py b/src/deepmol/metrics/metricsFunctions.py
+similarity index 100%
+rename from src/metrics/metricsFunctions.py
+rename to src/deepmol/metrics/metricsFunctions.py
+diff --git a/src/models/Models.py b/src/deepmol/models/Models.py
+similarity index 97%
+rename from src/models/Models.py
+rename to src/deepmol/models/Models.py
+index a70948f..bcec9c5 100644
+--- a/src/models/Models.py
++++ b/src/deepmol/models/Models.py
+@@ -3,9 +3,9 @@ import shutil
+ import tempfile
+ from typing import List, Optional, Sequence
+ import numpy as np
+-from Datasets.Datasets import Dataset
+-from evaluator.Evaluator import Evaluator
+-from metrics.Metrics import Metric
++from deepmol.Datasets.Datasets import Dataset
++from deepmol.evaluator.Evaluator import Evaluator
++from deepmol.metrics.Metrics import Metric
+ 
+ from sklearn.base import BaseEstimator
+ 
+diff --git a/src/deepmol/models/__init__.py b/src/deepmol/models/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/src/models/baseModels.py b/src/deepmol/models/baseModels.py
+similarity index 100%
+rename from src/models/baseModels.py
+rename to src/deepmol/models/baseModels.py
+diff --git a/src/models/kerasModels.py b/src/deepmol/models/kerasModels.py
+similarity index 94%
+rename from src/models/kerasModels.py
+rename to src/deepmol/models/kerasModels.py
+index 7dd8d2f..6058cb0 100644
+--- a/src/models/kerasModels.py
++++ b/src/deepmol/models/kerasModels.py
+@@ -1,11 +1,11 @@
+-from models.Models import Model
+-from models.sklearnModels import SklearnModel
+-from metrics.Metrics import Metric
+-from splitters.splitters import RandomSplitter, SingletaskStratifiedSplitter
++from deepmol.models.Models import Model
++from deepmol.models.sklearnModels import SklearnModel
++from deepmol.metrics.Metrics import Metric
++from deepmol.splitters.splitters import RandomSplitter, SingletaskStratifiedSplitter
+ from typing import Optional, Callable
+ from tensorflow.keras.wrappers.scikit_learn import KerasClassifier, KerasRegressor
+ import numpy as np
+-from Datasets.Datasets import Dataset
++from deepmol.Datasets.Datasets import Dataset
+ from sklearn.base import clone
+ 
+ #Only for sequential single input models
+diff --git a/src/models/sklearnModels.py b/src/deepmol/models/sklearnModels.py
+similarity index 94%
+rename from src/models/sklearnModels.py
+rename to src/deepmol/models/sklearnModels.py
+index eab0e37..eef1540 100644
+--- a/src/models/sklearnModels.py
++++ b/src/deepmol/models/sklearnModels.py
+@@ -4,12 +4,12 @@ from typing import Optional
+ import numpy as np
+ from sklearn.base import BaseEstimator
+ 
+-from models.Models import Model
+-from Datasets.Datasets import Dataset
+-from splitters.splitters import RandomSplitter, SingletaskStratifiedSplitter
+-from metrics.Metrics import Metric
++from deepmol.models.Models import Model
++from deepmol.Datasets.Datasets import Dataset
++from deepmol.splitters.splitters import RandomSplitter, SingletaskStratifiedSplitter
++from deepmol.metrics.Metrics import Metric
+ 
+-from utils.utils import load_from_disk, save_to_disk
++from deepmol.utils.utils import load_from_disk, save_to_disk
+ 
+ from sklearn.base import clone
+ '''
+diff --git a/src/parameterOptimization/HyperparameterOpt.py b/src/deepmol/parameterOptimization/HyperparameterOpt.py
+similarity index 98%
+rename from src/parameterOptimization/HyperparameterOpt.py
+rename to src/deepmol/parameterOptimization/HyperparameterOpt.py
+index 961c86e..c68d09d 100644
+--- a/src/parameterOptimization/HyperparameterOpt.py
++++ b/src/deepmol/parameterOptimization/HyperparameterOpt.py
+@@ -1,11 +1,11 @@
+ """Hyperparameter Optimization Class"""
+ 
+ import sklearn
+-from models.Models import Model
+-from models.sklearnModels import SklearnModel
+-from models.kerasModels import KerasModel
+-from metrics.Metrics import Metric
+-from Datasets.Datasets import Dataset
++from deepmol.models.Models import Model
++from deepmol.models.sklearnModels import SklearnModel
++from deepmol.models.kerasModels import KerasModel
++from deepmol.metrics.Metrics import Metric
++from deepmol.Datasets.Datasets import Dataset
+ from typing import Dict, Any, Optional, Tuple
+ from functools import reduce
+ from operator import mul
+diff --git a/src/deepmol/parameterOptimization/__init__.py b/src/deepmol/parameterOptimization/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/src/preprocessing.py b/src/deepmol/preprocessing.py
+similarity index 100%
+rename from src/preprocessing.py
+rename to src/deepmol/preprocessing.py
+diff --git a/src/deepmol/splitters/__init__.py b/src/deepmol/splitters/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/src/splitters/splitters.py b/src/deepmol/splitters/splitters.py
+similarity index 99%
+rename from src/splitters/splitters.py
+rename to src/deepmol/splitters/splitters.py
+index 36559f3..1376983 100644
+--- a/src/splitters/splitters.py
++++ b/src/deepmol/splitters/splitters.py
+@@ -3,7 +3,7 @@ import numpy as np
+ 
+ from typing import Tuple, List, Optional, Iterator
+ 
+-from Datasets.Datasets import Dataset, NumpyDataset
++from deepmol.Datasets.Datasets import Dataset, NumpyDataset
+ 
+ from sklearn.model_selection import KFold, StratifiedKFold
+ 
+diff --git a/src/test3.py b/src/deepmol/test3.py
+similarity index 100%
+rename from src/test3.py
+rename to src/deepmol/test3.py
+diff --git a/src/deepmol/unsupervised/__init__.py b/src/deepmol/unsupervised/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/src/unsupervised/baseUnsupervised.py b/src/deepmol/unsupervised/baseUnsupervised.py
+similarity index 99%
+rename from src/unsupervised/baseUnsupervised.py
+rename to src/deepmol/unsupervised/baseUnsupervised.py
+index c130075..f2fa7ba 100644
+--- a/src/unsupervised/baseUnsupervised.py
++++ b/src/deepmol/unsupervised/baseUnsupervised.py
+@@ -1,4 +1,4 @@
+-from Datasets.Datasets import Dataset, NumpyDataset
++from deepmol.Datasets.Datasets import Dataset, NumpyDataset
+ 
+ import pandas as pd
+ import numpy as np
+diff --git a/src/deepmol/utils/__init__.py b/src/deepmol/utils/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/src/utils/utils.py b/src/deepmol/utils/utils.py
+similarity index 100%
+rename from src/utils/utils.py
+rename to src/deepmol/utils/utils.py
+-- 
+2.31.1
+

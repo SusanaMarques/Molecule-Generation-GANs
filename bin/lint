@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+BASE_DIR=$(dirname "${BASH_SOURCE[0]:-$0}")
+cd "${BASE_DIR}/.." || exit 127
+
+# shellcheck source=../scripts/logging.sh
+. scripts/logging.sh
+# shellcheck source=../scripts/utils.sh
+. scripts/utils.sh
+
+PROGRAM=$(basename "$0")
+VERSION=0.5.4
+
+function display_help() {
+  cat <<EOF
+  $(help_title_section Usage)
+    ${PROGRAM} [options] [<command>]
+
+  $(help_title_section Commands) [Default: python]
+    python            Lint Python code.
+    shell             Lint shell scripts.
+
+  $(help_title_section Options)
+    -h --help         Show this screen.
+    -v --version      Show version.
+EOF
+}
+
+function python_files() {
+    find . -type f -iname "*.py" ! -path "./.venv/*" -print
+}
+
+function lint() {
+  if not_installed deactivate; then
+    source .venv/bin/activate
+  fi
+
+  case $1 in
+    shell)
+      log_info "${FUNCNAME[0]} ${1} scripts"
+      shellcheck scripts/*.sh
+      ;;
+    python)
+      log_info "${FUNCNAME[0]} ${1} files"
+      python_files | xargs pylint
+      python_files | xargs mypy
+      ;;
+  esac
+
+  log_success "${FUNCNAME[0]} ${1} scripts"
+}
+
+case ${1:-python} in
+  -h | --help)
+    display_help
+    ;;
+  -v | --version)
+    display_version "$PROGRAM" "$VERSION"
+    ;;
+  shell)
+    lint shell
+    ;;
+  python)
+    lint python
+    ;;
+  *)
+    display_help >&2
+    exit 1
+    ;;
+esac
